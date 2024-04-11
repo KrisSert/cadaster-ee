@@ -34,3 +34,31 @@ resource "google_bigquery_dataset" "BigQuery_Dataset" {
   dataset_id = var.bigquery_dataset_name
   location   = var.location
 }
+
+# Mage service account & api key
+resource "google_service_account" "mage-service-account" {
+  account_id   = "mage-service-account"
+  display_name = "Mage Service Account"
+}
+resource "google_project_iam_binding" "mage-service-acc-iam-binding" {
+  project = var.project
+  role    = "roles/editor"
+
+  members = [
+    "serviceAccount:${google_service_account.mage-service-account.email}"
+  ]
+}
+
+# DBT service account & api key
+resource "google_service_account" "dbt-service-account" {
+  account_id   = "dbt-service-account"
+  display_name = "DBT Service Account"
+}
+resource "google_project_iam_binding" "dbt-service-acc-iam-binding" {
+  project = var.project
+  role    = "roles/bigquery.admin"
+
+  members = [
+    "serviceAccount:${google_service_account.dbt-service-account.email}"
+  ]
+}
