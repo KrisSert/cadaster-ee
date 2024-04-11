@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  mage:
+    image: mageai/mageai:latest
+    command: mage start mage
+    build:
+      context: .
+      dockerfile: /mage/Dockerfile
+    ports:
+      - 6789:6789
+    volumes:
+      - .:/home/src/
+    restart: on-failure:5
+  
+#  terraform:
+#    build:
+#      context: ./terraform
+#    volumes:
+#      - /terraform:/app

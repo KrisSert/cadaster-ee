@@ -1,0 +1,14 @@
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# logfiles of runs
+*.log
+
+# test_data in json
+*.json
+
+.idea/
+.venv/

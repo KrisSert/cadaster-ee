@@ -1,0 +1,92 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: blue
+  configuration: {}
+  downstream_blocks:
+  - dbf_to_csv_transformer
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: load_dbf
+  retry_config: null
+  status: executed
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: load_dbf
+- all_upstream_blocks_executed: true
+  color: purple
+  configuration: {}
+  downstream_blocks:
+  - csv_to_gcs_exporter
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: dbf_to_csv_transformer
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - load_dbf
+  uuid: dbf_to_csv_transformer
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - clean_downloaded_files
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: csv_to_GCS_exporter
+  retry_config: null
+  status: updated
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - dbf_to_csv_transformer
+  uuid: csv_to_gcs_exporter
+- all_upstream_blocks_executed: false
+  color: grey
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: clean downloaded files
+  retry_config: null
+  status: executed
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - csv_to_gcs_exporter
+  uuid: clean_downloaded_files
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2024-03-30 17:01:06.838671+00:00'
+data_integration: null
+description: null
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: Katastriyksus_from_API_to_GCS
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+updated_at: '2024-04-02T18:13:01+00:00'
+uuid: katastriyksus_from_api_to_gcs
+variables_dir: /home/src/mage_data/mage
+widgets: []
