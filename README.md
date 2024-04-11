@@ -20,27 +20,21 @@ Transformation within the pipeline converts the file to .csv and stores it in GC
 ---------------------
 
 
-Sourcing:
-Python
+Sourcing & transformation:
+- Python
+- Docker
+- Terraform as IaaC
+- BigQuery & dbt
+- Mage
 
+----------------------- 
 
-Docker
+Prerequsites:
 
-Terraform as IaaC
-
-dbt
-
-Mage
-
--- 
-
-Google Cloud servers
-
-Google Cloud SQL (PostgreSQL)
-
-Google Data Studio 
-
-
+- Enable Identity and Access Management (IAM) API in google cloud platform: 
+	https://console.cloud.google.com/apis/library/iam.googleapis.com?
+- Enable Cloud Resource Manager API:
+	https://console.cloud.google.com/apis/api/cloudresourcemanager.googleapis.com 
 
 
 1. clone the project in your desider machine, or VM instance: 
@@ -49,7 +43,24 @@ Google Data Studio
 2. Create service account and api key for terraform in GCS.
 	- download the JSON and place the value to /terraform/keys/gcs_terraform_api_key.json"
 
-3. To create GCS infrastructure, in path "terraform" run:
-	- terraform init 
-	- terraform plan  (to_be_created: 1 bucket, 1 bigquery dataset, 1 service account key)
-	- terraform apply
+3. To create GCS infrastructure:
+   - navigate to path "terraform":
+  
+		```cd terraform```
+	
+   - run terraform init, plan & apply: 
+
+		```terraform init``` 
+  	
+		``` terraform plan```  
+		(to_be_created: )
+
+		```terraform apply```
+
+4. Create the api keys for "mage-service-account" and "dbt-service-account":
+   	https://console.cloud.google.com/iam-admin/serviceaccounts
+
+	- the mage-service-account api key should be placed in "/keys" folder in the project, and renamed to:
+		"mage_service_account_key.json"
+	- the dbt-service-account api key should be placed in "/keys" folder in the project, and renamed to:
+		"dbt_service_account_key.json"
