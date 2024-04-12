@@ -43,7 +43,7 @@ Prerequsites:
 2. Create service account and api key for terraform in GCS.
 	- download the JSON and place the value to /terraform/keys/gcs_terraform_api_key.json"
 
-3. To create GCS infrastructure:
+3. To create GCS infrastructure (bucket, bigquery dataset, service accounts, roles):
    - navigate to path "terraform":
   
 		```cd terraform```
@@ -53,7 +53,7 @@ Prerequsites:
 		```terraform init``` 
   	
 		``` terraform plan```  
-		(to_be_created: )
+		(to_be_created: 6 to add.)
 
 		```terraform apply```
 
