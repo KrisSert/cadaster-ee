@@ -191,3 +191,7 @@ node_modules
 scratch*
 /mage_data*
 *secrets*.json
+
+#dbt files
+/mage/dbt/.user.yml
+/mage/dbt/package-lock.yml

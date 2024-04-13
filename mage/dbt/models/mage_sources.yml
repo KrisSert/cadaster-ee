@@ -1,0 +1,14 @@
+sources:
+- description: Dataframes Mage upstream blocks
+  loader: mage
+  name: mage_dbt
+  schema: dbt_cadaster_data
+  tables:
+  - description: Dataframe for block `dbt_create_stg_ext_tables` of the `katastriyksus_from_api_to_gcs`
+      mage pipeline.
+    identifier: mage_katastriyksus_from_api_to_gcs_dbt_create_stg_ext_tables
+    meta:
+      block_uuid: dbt_create_stg_ext_tables
+      pipeline_uuid: katastriyksus_from_api_to_gcs
+    name: katastriyksus_from_api_to_gcs_dbt_create_stg_ext_tables
+version: 2

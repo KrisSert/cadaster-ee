@@ -1,0 +1,12 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: de-zoomcamp-411619 # This is your Google Cloud project ID
+      dataset: dbt_cadaster_data  # Your BigQuery dataset
+      threads: 1
+      keyfile: ../../keys/dbt_service_account_key.json  # Path to your Google Cloud service account key file
+      timeout_seconds: 300  # Optional: Adjust based on your needs
+      location: US  # Optional: Set this to your BigQuery region, e.g., "US"
