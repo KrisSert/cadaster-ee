@@ -1,10 +1,13 @@
 
 Data engineering project to process, analyse and vizualize the Estonian cadastral data.
 
----
-
 Cadastral Data (definition): 
 contains official, legal documentation concerning the quantity, dimensions, location, value, tenure, and ownership of individual parcels of land.
+
+PROBLEM: 
+Understand the Estonian cadastral data by vizualising:
+    - cadastral unit distribution by county across Estonia
+    - cadastral unit initial registrations over time (timeline)
 
 ### Architecture
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vThb-9tX8vTUEEsmdGTwmGnXUVBEAIbcfJQN05Pvh7o6H_755PkOtypvDnZ6aUT3jS4DTZ9QibfLp9b/pub?w=981&amp;h=391">
@@ -40,7 +43,7 @@ Prerequsites:
 1. clone the project in your desider machine, or VM instance: 
 	- git clone *.git
 
-2. Create service account and api key for terraform in GCS.
+2. Create service account (w role: "OWNER") and api key for terraform in GCS.
 	- download the JSON and place the value to /terraform/keys/gcs_terraform_api_key.json"
 
 3. To create GCS infrastructure (bucket, bigquery dataset, service accounts, roles):
@@ -57,10 +60,17 @@ Prerequsites:
 
 		```terraform apply```
 
-4. Create the api keys for "mage-service-account" and "dbt-service-account":
+4. Create the api keys for "mage-service-account" and "dbt-service-account" here:
    	https://console.cloud.google.com/iam-admin/serviceaccounts
 
 	- the mage-service-account api key should be placed in "/keys" folder in the project, and renamed to:
 		"mage_service_account_key.json"
 	- the dbt-service-account api key should be placed in "/keys" folder in the project, and renamed to:
 		"dbt_service_account_key.json"
+
+
+
+6. When running the Mage pipeline: 
+
+    - needed to create the external table with dbt once the cvs has reached bucket: 
+    ```dbt run-operation stage_external_sources --vars "ext_full_refresh: true"```
