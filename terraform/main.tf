@@ -62,3 +62,10 @@ resource "google_project_iam_binding" "dbt-service-acc-iam-binding" {
     "serviceAccount:${google_service_account.dbt-service-account.email}"
   ]
 }
+resource "google_project_iam_binding" "dbt-service-acc-iam-binding-2" {
+  project = var.project
+  role    = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.dbt-service-account.email}",
+  ]
+}
