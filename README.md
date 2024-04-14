@@ -1,14 +1,14 @@
 
 ## Introduction
 
-This is data engineering project to process, analyse and vizualize the Estonian cadastral data.
+This is data engineering project to load, transform and visualize the Estonian cadastral data.
 
 Processing type: BATCH
 
 	Cadastral Data (definition): contains official, legal documentation concerning the quantity, dimensions, location, value, tenure, and ownership of individual parcels of land.
 
 PROBLEM: 
-Understand the Estonian cadastral data by vizualising:
+Understand the Estonian cadastral data by visualizing:
 - cadastral unit distribution by county across Estonia
 - cadastral unit initial registrations over time (timeline)
 - cadastral unit addresses on a heat map by median assessed plot value
@@ -53,8 +53,7 @@ Technologies used:
 	- partitoned_by: **registration_date_year** - since this column is used to create the timeline chart in the dashboard.
 	- clustered_by: **county_name** - column used for grouping in the chart, dashboard. 
 
-
-![alt text](bigquery_tables.jpg)
+![Image](bigquery_tables.png)
 
 ## Steps to get the project up and run the pipeline:
 
