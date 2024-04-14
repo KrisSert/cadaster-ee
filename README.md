@@ -83,7 +83,7 @@ Technologies used:
   
 	If the path does not exist, create it:
   
-	```mkdir cadaster-ee/terraform/keys/```
+	```mkdir cadaster-ee/terraform/keys```
 
 	Make sure to rename the pasted api key to:
 	
@@ -111,13 +111,20 @@ Technologies used:
 	- the dbt-service-account api key should be placed in "/keys" folder in the project, and renamed to:
 		"dbt_service_account_key.json"
 
+5. add the google project_id for dbt. In project root:
 
-5. in the project root "**cadaster-ee**", run:
+	make sure to replace <your_project_id> with you google project_id as mentioned above in the "prerequisites > google cloud" section.
+
+	```sed -i 's/de-zoomcamp-411619/<your_project_id>/g' mage/dbt/profiles.yml```
+
+	```sed -i 's/de-zoomcamp-411619/<your_project_id>/g' mage/dbt/models/staging/schema.yml```
+
+6. in the project root "**cadaster-ee**", run:
 	```docker compose up --build```
 
 	Give it some time to download the images, and build the container.
 
-6. Once done, access the mage container, and run "**dbt deps**":
+7. Once done, access the mage container, and run "**dbt deps**":
    
    ```docker exec -it <container_id> bash```
 
@@ -127,7 +134,7 @@ Technologies used:
 
    ctrl+c to exit
 
-7. 	Access mage at:
+8. 	Access mage at:
 	
 		//localhost::6789 ?
 

@@ -77,7 +77,7 @@ blocks:
   language: python
   name: dbt_create_stg_ext_tables
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: custom
   upstream_blocks:
