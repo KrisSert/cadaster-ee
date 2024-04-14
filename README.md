@@ -72,7 +72,7 @@ Technologies used:
 - docker installed and running
 - docker-compose installed
 
-##### Steps:
+### Setup:
 1. clone the project in your desider machine, or VM instance: 
    
    ```git clone https://github.com/KrisSert/cadaster-ee.git```
