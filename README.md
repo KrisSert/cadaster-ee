@@ -135,7 +135,11 @@ Technologies used:
 
 8. 	Access mage at:
 	
-		//localhost::6789 ?
+	- if running docker locally:
+		//localhost:6789
+
+	- if using cloud vm: 
+		http://[vm_external_ip]:6789
 
 	Go to triggers, and pick either the scheduled or one-time trigger & run.
 	Takes 20-30 to complete, mostly due to ".bdf to .csv" conversion.
