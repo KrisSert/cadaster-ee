@@ -37,6 +37,8 @@ Technologies used:
 
 ## Pipeline
 
+Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-data/cadastral-data-p310.html
+
 #### There is one source file and one pipeline defined.
 
 #### **Mage** pipeline "**katastriyksus_from_api_to_bq**" blocks:
