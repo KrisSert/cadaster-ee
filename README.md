@@ -131,6 +131,6 @@ Technologies used:
 	
 		//localhost::6789 ?
 
-	Go to triggers, and pick.
-
-	Takes 20-30 to complete.
+	Go to triggers, and pick either the scheduled or one-time trigger & run.
+	Takes 20-30 to complete, mostly due to ".bdf to .csv" conversion.
+	The underlying dataset is updated every midnight estonian time - scheduled trigger set to 01:00 each night.
