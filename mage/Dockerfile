@@ -6,6 +6,5 @@ COPY requirements.txt ${USER_CODE_PATH}/requirements.txt
 
 RUN pip3 install -r ${USER_CODE_PATH}/requirements.txt
 
-WORKDIR /home/src/mage/dbt
-# Run dbt deps
-RUN dbt deps 
+WORKDIR /home/src/
+#RUN pwd && ls -ltr

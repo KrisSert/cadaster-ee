@@ -20,6 +20,20 @@ with data as (
     SELECT
         TUNNUS as unit_id,
         cast(HKOOD as INTEGER) as settlement_id,
+        -- new column
+        ST_CENTROID(
+            ST_GEOGFROMTEXT(
+                CONCAT(
+                    'POLYGON((',
+                        '21.8319', ' ', '57.5163', ',',
+                        '28.2121', ' ', '57.5163', ',',
+                        '28.2121', ' ', '59.6766', ',',
+                        '21.8319', ' ', '59.6766', ',',
+                        '21.8319', ' ', '57.5163',
+                        '))'
+                    )
+                )
+            ) as country_geo_point,
         MK_NIMI	as county_name,
         OV_NIMI	as municipality_name,
         AY_NIMI as settlements_name,

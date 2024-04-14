@@ -1,53 +1,96 @@
 
-Data engineering project to process, analyse and vizualize the Estonian cadastral data.
+## Introduction
 
-Cadastral Data (definition): 
-contains official, legal documentation concerning the quantity, dimensions, location, value, tenure, and ownership of individual parcels of land.
+This is data engineering project to process, analyse and vizualize the Estonian cadastral data.
+
+Processing type: BATCH
+
+	Cadastral Data (definition): contains official, legal documentation concerning the quantity, dimensions, location, value, tenure, and ownership of individual parcels of land.
 
 PROBLEM: 
 Understand the Estonian cadastral data by vizualising:
-    - cadastral unit distribution by county across Estonia
-    - cadastral unit initial registrations over time (timeline)
+- cadastral unit distribution by county across Estonia
+- cadastral unit initial registrations over time (timeline)
+- cadastral unit addresses on a heat map by median assessed plot value
 
-### Architecture
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vThb-9tX8vTUEEsmdGTwmGnXUVBEAIbcfJQN05Pvh7o6H_755PkOtypvDnZ6aUT3jS4DTZ9QibfLp9b/pub?w=981&amp;h=391">
+## Dashboard
+Build with Looker Studio, on the Bigquery cadaster base table:
+![alt text](image-1.png)
 
----
+Explore it here:
 
-### Source loading:
-
-Loading the .bdf source file (Mage pipeline) to Google Cloud Storage: "api_to_gcs"
-Transformation within the pipeline converts the file to .csv and stores it in GCS bucket.
-
-
----------------------
+https://lookerstudio.google.com/reporting/d3349042-e744-4985-bac3-c0368df50e6a 
 
 
-Sourcing & transformation:
-- Python
-- Docker
-- Terraform as IaaC
-- BigQuery & dbt
-- Mage
+## Architecture
 
------------------------ 
+Technologies used:
+- **Python**
+- **Docker**/docker-compose
+- **Terraform** as IaaC
+- **Mage** for orchestration
+- **Google Cloud Storage** as data lake
+- **BigQuery** & **dbt** core
+- **Looker Studio** as viz dashboard
+ 
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vQ_eZc0AtYcVkL5XQBnJpcca5wq2ua2HBAiWhblZw2Ea1sJzp0BBdQ6RNGm6HuO9BF599GISgBqiEBM/pub?w=1191&amp;h=656">
 
-Prerequsites:
+## Pipeline
 
+#### There is one source file and one pipeline defined.
+
+#### **Mage** pipeline "**katastriyksus_from_api_to_bq**" blocks:
+
+![alt text](mage_pipeline.png)
+
+## DWH (Bigquery)
+
+**"dbt run"** creates two schemas and tables in BigQuery: 
+
+- "stg_katastriyksus_ext" : external table for staging the data from the csv file in GCS.
+- "base_katastriyksus" : materialized base table for storing the transformed data & using it for reporting. 
+  
+	- partitoned_by: **registration_date_year** - since this column is used to create the timeline chart in the dashboard.
+	- clustered_by: **county_name** - column used for grouping in the chart, dashboard. 
+
+
+![alt text](bigquery_tables.jpg)
+
+## Steps to get the project up and run the pipeline:
+
+### Prerequisites
+
+##### Google Cloud:
+- Create a project (get a project_id) 
+  ![alt text](image.png)
 - Enable Identity and Access Management (IAM) API in google cloud platform: 
 	https://console.cloud.google.com/apis/library/iam.googleapis.com?
 - Enable Cloud Resource Manager API:
 	https://console.cloud.google.com/apis/api/cloudresourcemanager.googleapis.com 
 
+##### On the machine you're using:
+- Terraform installed
+- docker installed and running
+- docker-compose installed
 
+##### Steps:
 1. clone the project in your desider machine, or VM instance: 
-	- git clone *.git
+   
+   ```git clone https://github.com/KrisSert/cadaster-ee.git```
 
-2. Create service account (w role: "OWNER") and api key for terraform in GCS.
+2. Create service account manually (w role: "OWNER") and api key for terraform in GCS.
 	- download the JSON and place the value to /terraform/keys/gcs_terraform_api_key.json"
+  
+	If the path does not exist, create it:
+  
+	```mkdir cadaster-ee/terraform/keys/```
+
+	Make sure to rename the pasted api key to:
+	
+		"gcs_terraform_api_key.json"
 
 3. To create GCS infrastructure (bucket, bigquery dataset, service accounts, roles):
-   - navigate to path "terraform":
+   - navigate from project root "**cadaster-ee**" to path "terraform":
   
 		```cd terraform```
 	
@@ -69,8 +112,25 @@ Prerequsites:
 		"dbt_service_account_key.json"
 
 
+5. in the project root "**cadaster-ee**", run:
+	```docker compose up --build```
 
-6. When running the Mage pipeline: 
+	Give it some time to download the images, and build the container.
 
-    - needed to create the external table with dbt once the cvs has reached bucket: 
-    ```dbt run-operation stage_external_sources --vars "ext_full_refresh: true"```
+6. Once done, access the mage container, and run "**dbt deps**":
+   
+   ```docker exec -it <container_id> bash```
+
+   ```cd /home/src/mage/dbt```
+
+   ```dbt deps```
+
+   ctrl+c to exit
+
+7. 	Access mage at:
+	
+		//localhost::6789 ?
+
+	Go to triggers, and pick.
+
+	Takes 20-30 to complete.

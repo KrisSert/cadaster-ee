@@ -14,8 +14,3 @@ services:
       - .:/home/src/
     restart: on-failure:5
   
-#  terraform:
-#    build:
-#      context: ./terraform
-#    volumes:
-#      - /terraform:/app
