@@ -15,6 +15,7 @@ Understand the Estonian cadastral data by visualizing:
 
 ## Dashboard
 Build with Looker Studio, on the Bigquery cadaster base table:
+
 ![alt text](image-1.png)
 
 Explore it here:
@@ -184,6 +185,8 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
 
 	```sed -i 's/cadaster_data_bucket/<your_bucket_name>/g' mage/dbt/models/staging/schema.yml```
 
+	```sed -i 's/cadaster_data_bucket/<your_bucket_name>/g' mage/data_exporters/csv_to_gcs_exporter.py```
+
 7. in the project root "**cadaster-ee**", run:
 	```docker compose up --build```
 
@@ -197,16 +200,19 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
 
    ```dbt deps```
 
-   ctrl+c to exit
+   ctrl+d to exit
 
-9.  	Access mage at:
+9. Access mage:
 	
 	- if running docker locally:
 		//localhost:6789
 
-	- if using cloud vm: 
+	- if using cloud vm (make sure to create a firewall rule that enables access under Google Cloud > VPC firewall rules > create firewall rule:
+   
 		http://[vm_external_ip]:6789
 
 	Go to triggers, and pick either the scheduled or one-time trigger & run.
-	Takes 20-30 to complete, mostly due to ".bdf to .csv" conversion.
+	
+	Took 2 min 30 sec to complete on Google Cloud VM.
+
 	The underlying dataset is updated every midnight estonian time - scheduled trigger set to 01:00 each night.

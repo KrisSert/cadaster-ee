@@ -1,5 +1,6 @@
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 import os
+import nest_asyncio
 
 
 if 'custom' not in globals():
@@ -11,6 +12,7 @@ if 'test' not in globals():
 @custom
 def transform_custom(*args, **kwargs):
 
+    nest_asyncio.apply()
     original_path = os.getcwd()
     
     try:

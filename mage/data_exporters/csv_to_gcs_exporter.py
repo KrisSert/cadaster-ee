@@ -29,7 +29,7 @@ def export_data_to_google_cloud_storage(csv_filepath: str, **kwargs):
     storage_client = storage.Client()
 
     # Get the bucket
-    bucket_name = 'cadaster_data_bucket'
+    bucket_name = "cadaster_data_bucket"
     bucket = storage_client.bucket(bucket_name)
 
     blob_name = 'KATASTRIYKSUS.csv'

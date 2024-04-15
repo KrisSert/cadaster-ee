@@ -1,0 +1,6 @@
+triggers:
+  - name: daily_1am_trigger
+    schedule_type: time
+    schedule_interval: "0 1 * * *"
+    start_time: 2024-01-01
+    status: inactive
