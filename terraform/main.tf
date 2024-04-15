@@ -30,11 +30,6 @@ resource "google_storage_bucket" "GCS_Bucket" {
   }
 }
 
-resource "google_bigquery_dataset" "BigQuery_Dataset" {
-  dataset_id = var.bigquery_dataset_name
-  location   = var.location
-}
-
 # Mage service account & api key
 resource "google_service_account" "mage-service-account" {
   account_id   = "mage-service-account"
