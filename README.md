@@ -64,6 +64,8 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
 ##### Google Cloud:
 - Create a project (get a project_id) 
   ![alt text](image.png)
+
+- Enable bigquery api: https://console.cloud.google.com/marketplace/product/google/bigquery.googleapis.com 
 - Enable Identity and Access Management (IAM) API in google cloud platform: 
 	https://console.cloud.google.com/apis/library/iam.googleapis.com?
 - Enable Cloud Resource Manager API:
@@ -79,18 +81,72 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
    
    ```git clone https://github.com/KrisSert/cadaster-ee.git```
 
-2. Create service account manually (w role: "OWNER") and api key for terraform in GCS.
-	- download the JSON and place the value to /terraform/keys/gcs_terraform_api_key.json"
-  
-	If the path does not exist, create it:
-  
-	```mkdir cadaster-ee/terraform/keys```
+2. change the project variables used in *"terraform/variables.tf"*, so it could identify your cloud account.
+   
+   Since the bucket names in google cloud have to be globally unique, please change it to some bucket name which most likely does not already exists, for example *"cadaster_bucket_102937"* or something similar with plenty digits.
 
-	Make sure to rename the pasted api key to:
+	before:
+		
+		variable "project" {
+		description = "Project in Google Cloud"
+		default     = "de-zoomcamp-411619"
+		}
+
+		variable "region" {
+		description = "Region"
+		default     = "us-central1"
+		}
+
+		variable "location" {
+		description = "Project Location"
+		default     = "US"
+		}
+				
+		variable "gcs_bucket_name" {
+		description = "My Storage Bucket Name"
+		default     = "cadaster_data_bucket"
+		}
+
+	***example - after***:
+		
+		variable "project" {
+		description = "Project in Google Cloud"
+		default     = "<my_project_id>"
+		}
+
+		variable "region" {
+		description = "Region"
+		default     = "us-central1"
+		}
+
+		variable "location" {
+		description = "Project Location"
+		default     = "US"
+		}
+				
+		variable "gcs_bucket_name" {
+		description = "My Storage Bucket Name"
+		default     = "<my_bucket_name>"
+		}
+
+
+3. Create service account for terraform manually (w role: "OWNER"):
+   
+	- Create json api key for the service account.
+  
+	- from project root, create keys path under terraform:
+
+		```mkdir cadaster-ee/terraform/keys```
+	
+	- download the JSON api key and place the value to 
+  
+		```cadaster-ee/terraform/keys/gcs_terraform_api_key.json"```
+  
+	Make sure that the pasted api key is renamed to:
 	
 		"gcs_terraform_api_key.json"
 
-3. To create GCS infrastructure (bucket, bigquery dataset, service accounts, roles):
+4. To create GCS infrastructure (bucket, bigquery dataset, service accounts, roles):
    - navigate from project root "**cadaster-ee**" to path "terraform":
   
 		```cd terraform```
@@ -100,32 +156,40 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
 		```terraform init``` 
   	
 		``` terraform plan```  
-		(to_be_created: 6 to add.)
+		(to_be_created: 7 to add.)
 
 		```terraform apply```
 
-4. Create the api keys for "mage-service-account" and "dbt-service-account" here:
+5. Create the api keys for "mage-service-account" and "dbt-service-account" here:
    	https://console.cloud.google.com/iam-admin/serviceaccounts
+
+	- create the keys path in project root (cadaster-ee): 
+  
+		```mkdir keys```
 
 	- the mage-service-account api key should be placed in "/keys" folder in the project, and renamed to:
 		"mage_service_account_key.json"
 	- the dbt-service-account api key should be placed in "/keys" folder in the project, and renamed to:
 		"dbt_service_account_key.json"
 
-5. add the google project_id for dbt. In project root:
+6. add the google project_id and bucket_name for dbt. In project root:
 
-	make sure to replace <your_project_id> with you google project_id as mentioned above in the "prerequisites > google cloud" section.
+	make sure to replace <your_project_id> with you google project_id as mentioned above in the "prerequisites > google cloud" section. 
 
 	```sed -i 's/de-zoomcamp-411619/<your_project_id>/g' mage/dbt/profiles.yml```
 
 	```sed -i 's/de-zoomcamp-411619/<your_project_id>/g' mage/dbt/models/staging/schema.yml```
 
-6. in the project root "**cadaster-ee**", run:
+	same goes for <your_bucket_name>:
+
+	```sed -i 's/cadaster_data_bucket/<your_bucket_name>/g' mage/dbt/models/staging/schema.yml```
+
+7. in the project root "**cadaster-ee**", run:
 	```docker compose up --build```
 
 	Give it some time to download the images, and build the container.
 
-7. Once done, access the mage container, and run "**dbt deps**":
+8. Once done, access the mage container, and run "**dbt deps**":
    
    ```docker exec -it <container_id> bash```
 
@@ -135,7 +199,7 @@ Source (Cadastral units SHP file): https://geoportaal.maaamet.ee/eng/spatial-dat
 
    ctrl+c to exit
 
-8. 	Access mage at:
+9.  	Access mage at:
 	
 	- if running docker locally:
 		//localhost:6789

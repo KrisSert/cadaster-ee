@@ -1,5 +1,3 @@
-version: "3"
-
 services:
 
   mage:
@@ -7,7 +5,7 @@ services:
     command: mage start mage
     build:
       context: .
-      dockerfile: /mage/Dockerfile
+      dockerfile: mage/Dockerfile
     ports:
       - 6789:6789
     volumes:
