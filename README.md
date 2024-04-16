@@ -20,9 +20,8 @@ Build with Looker Studio, on the Bigquery cadaster base table:
 
 Explore it here:
 
-https://lookerstudio.google.com/reporting/d3349042-e744-4985-bac3-c0368df50e6a 
+https://lookerstudio.google.com/embed/reporting/d3349042-e744-4985-bac3-c0368df50e6a/page/uQowD 
 
-Note: In the google map view, you have to zoom into Estonia, since there are some false positives in the address data, where address names are similar to other places in the world :)
 
 ## Architecture
 
